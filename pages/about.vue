@@ -1,5 +1,12 @@
 <template>
-    <div>
+    <UCard :ui="ui">
         About!
-    </div>
+        <UButton icon="i-heroicons-magnifying-glass" />
+    </UCard>
 </template>
+  
+<script setup>
+const ui = /*ui*/ {
+    background: 'bg-white dark:bg-slate-900'
+}
+</script>
