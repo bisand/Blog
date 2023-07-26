@@ -13,7 +13,10 @@
 				"Vue.vscode-typescript-vue-plugin",
 				"dbaeumer.vscode-eslint",
 				"bradlc.vscode-tailwindcss",
-				"esbenp.prettier-vscode"
+				"esbenp.prettier-vscode",
+				"GitHub.copilot-chat",
+				"GitHub.copilot-labs",
+				"GitHub.copilot"
 			]
 		}
 	}

@@ -17,5 +17,9 @@
     "nuxt": "^3.6.3",
     "postcss": "^8.4.26",
     "tailwindcss": "^3.3.3"
+  },
+  "dependencies": {
+    "@upstash/redis": "^1.22.0",
+    "cloudflare-client": "^0.3.2"
   }
 }
