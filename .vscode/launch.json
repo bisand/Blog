@@ -14,10 +14,15 @@
             "type": "node",
             "request": "launch",
             "name": "server: nuxt",
-            "program": "${workspaceFolder}/node_modules/nuxi/bin/nuxi.mjs",
+            "program": "/usr/local/bin/npm",
             "args": [
-                "dev"
+                "run",
+                "dev:wrangler"
             ],
+            "env": {
+                "NODE_ENV": "development",
+                "NITRO_PRESET": "cloudflare-pages"
+            }
         }
     ],
     "compounds": [
