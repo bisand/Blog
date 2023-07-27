@@ -12,17 +12,14 @@
         },
         {
             "type": "node",
+            "preLaunchTask": "npm: build",
             "request": "launch",
             "name": "server: nuxt",
             "program": "/usr/local/bin/npm",
             "args": [
                 "run",
-                "dev:wrangler"
-            ],
-            "env": {
-                "NODE_ENV": "development",
-                "NITRO_PRESET": "cloudflare-pages"
-            }
+                "dev:run"
+            ]
         }
     ],
     "compounds": [

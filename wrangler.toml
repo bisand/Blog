@@ -1,7 +1,0 @@
-name = "blog"
-type = "typescript"
-
-account_id = ""
-workers_dev = true
-route = ""
-zone_id = ""

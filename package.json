@@ -4,7 +4,8 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "dev:wrangler": "npx wrangler pages dev --kv=IMAGES --live-reload -- npm run dev",
+    "dev:debug": "npx wrangler pages dev --kv=IMAGES --live-reload -- npm run dev",
+    "dev:run": "npx wrangler pages dev dist --kv=IMAGES",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -15,10 +16,10 @@
     "@nuxtjs/color-mode": "^3.3.0",
     "@types/node": "^18.16.19",
     "autoprefixer": "^10.4.14",
-    "nuxt": "^3.6.3",
-    "postcss": "^8.4.26",
+    "nuxt": "^3.6.5",
+    "postcss": "^8.4.27",
     "tailwindcss": "^3.3.3",
-    "wrangler": "^3.3.0"
+    "wrangler": "^3.4.0"
   },
   "dependencies": {
     "@cloudflare/workers-types": "^4.20230724.0",
