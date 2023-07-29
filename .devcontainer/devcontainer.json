@@ -16,7 +16,8 @@
 				"esbenp.prettier-vscode",
 				"GitHub.copilot-chat",
 				"GitHub.copilot-labs",
-				"GitHub.copilot"
+				"GitHub.copilot",
+				"qwtel.sqlite-viewer"
 			]
 		}
 	}

@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@cloudflare/workers-types": "^4.20230724.0",
-    "@upstash/redis": "^1.22.0"
+    "@upstash/redis": "^1.22.0",
+    "formidable": "^3.5.0"
   }
 }
