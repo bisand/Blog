@@ -1,24 +1,46 @@
-import formidable, { errors as formidableErrors } from 'formidable';
+import { KVNamespace } from '@cloudflare/workers-types';
+import busboy from 'busboy';
+import { log } from 'console';
 
 export default eventHandler(async (event) => {
 
-    const form = formidable({});
-    let fields;
-    let files;
-    try {
-        [fields, files] = await form.parse(event.node.req);
-    } catch (err: any) {
-        // example to check for a very specific error
-        if (err.code === formidableErrors.maxFieldsExceeded) {
+    const IMAGES_KV: KVNamespace = event.context.cloudflare.env.IMAGES;
+    // let value: number = await IMAGES_KV.get<number>("counter") ?? 0;
+    // value++;
+    const buf = await new Promise<ArrayBuffer>(resolve => {
+        resolve(Buffer.from('hello world'));
+    });
 
-        }
-        console.error(err);
-        event.node.res.writeHead(err.httpCode || 400, { 'Content-Type': 'text/plain' });
-        event.node.res.end(String(err));
-        return;
-    }
-    event.node.res.writeHead(200, { 'Content-Type': 'application/json' });
-    event.node.res.end(JSON.stringify({ fields, files }, null, 2));
-    return;
+    log('buf', buf);
 
+    console.log('POST request');
+    const bb = busboy({ headers: event.node.req.headers });
+ 
+    bb.on('file', (name: any, file: any, info: { filename: any; encoding: any; mimeType: any; }) => {
+        let data: ArrayBuffer = new ArrayBuffer(0);
+        const { filename, encoding, mimeType } = info;
+        const sanitizedFilename = filename.replace(/[^a-z0-9_.-]/gi, '_').toLowerCase();
+        console.log(`File [${name}]: filename: ${sanitizedFilename}, encoding: ${encoding}, mimeType: ${mimeType}`);
+        file.on('data', (chunk: any) => {
+            console.log(`File [${name}] ${sanitizedFilename} got ${chunk.length} bytes`);
+            const newBuffer = new ArrayBuffer(data.byteLength + chunk.length);
+            const newView = new Uint8Array(newBuffer);
+            newView.set(new Uint8Array(data));
+            newView.set(new Uint8Array(chunk), data.byteLength);
+            data = Buffer.from(newBuffer);
+        }).on('close', () => {
+            console.log(`File [${name}] ${sanitizedFilename} done`);
+        }).on('end', async () => {
+            await IMAGES_KV.put(sanitizedFilename, data);
+        });
+    });
+    bb.on('field', (name: any, val: any, info: any) => {
+        console.log(`Field [${name}]: value: %j`, val);
+    });
+    bb.on('close', () => {
+        console.log('Done parsing form!');
+        setResponseStatus(event, 201);
+    });
+    event.node.req.pipe(bb);
+    return null;
 })

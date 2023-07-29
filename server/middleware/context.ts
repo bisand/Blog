@@ -10,14 +10,19 @@ export default defineEventHandler((event) => {
 
 export class KVLocal {
     constructor(public name: string) { }
-    public get<T>(key: string, options?: KVNamespaceGetOptions<T>): Promise<T | null> {
+    public get<T>(key: string, type: string): Promise<T | null> {
         // Load data from file
         const path = `./.wrangler/state/fake/kv/${this.name}/blobs/${key}`;
-        const data = fs.readFileSync(path, 'utf8');
 
+        if (type === 'arrayBuffer') {
+            const data = fs.readFileSync(path);
+            return Promise.resolve(Buffer.from(data) as unknown as T);
+        }
+
+        const data = fs.readFileSync(path, 'utf8');
         return Promise.resolve(data as unknown as T);
     }
-    public put(key: string, value: string, options?: KVNamespacePutOptions): Promise<void> {
+    public put(key: string, value: string | ArrayBuffer, options?: KVNamespacePutOptions): Promise<void> {
         try {
             const dir = `./.wrangler/state/fake/kv/${this.name}/blobs`
             const path = `${dir}/${key}`
@@ -25,10 +30,17 @@ export class KVLocal {
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir, { recursive: true });
             }
-            fs.writeFileSync(path, value);
+            if (typeof (value) === 'string') {
+                fs.writeFileSync(path, value);
+            } else {
+                const buffer = Buffer.from(value);
+                fs.writeFileSync(path, buffer);
+            }
+
             console.log("Data saved to file.");
         } catch (err) {
             console.error(err);
-        } return Promise.resolve();
+        }
+        return Promise.resolve();
     }
 }
