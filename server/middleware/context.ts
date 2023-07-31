@@ -14,6 +14,10 @@ export class KVLocal {
         // Load data from file
         const path = `./.wrangler/state/fake/kv/${this.name}/blobs/${key}`;
 
+        if(!fs.existsSync(path)) {
+            return Promise.resolve(null);
+        }
+
         if (type === 'arrayBuffer') {
             const data = fs.readFileSync(path);
             return Promise.resolve(Buffer.from(data) as unknown as T);
