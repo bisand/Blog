@@ -1,6 +1,6 @@
 import type { Config } from 'tailwindcss'
 
-export default <Partial<Config>> {
+export default <Partial<Config>>{
   darkMode: 'class',
   content: [
     'docs/content/**/*.md',
@@ -12,7 +12,8 @@ export default <Partial<Config>> {
     "./app.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+    }
   },
   plugins: [],
 }

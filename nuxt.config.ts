@@ -9,13 +9,6 @@ export default defineNuxtConfig({
     server: true,
     client: true
   },
-  css: ['~/assets/css/main.css'],
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
-  },
   colorMode: {
     classSuffix: '',
     // preference: 'light'

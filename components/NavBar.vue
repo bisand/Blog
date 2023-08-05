@@ -1,6 +1,6 @@
 <template>
-    <nav class="bg-slate-50 dark:bg-gray-800 p-4 shadow-lg fixed">
-        <div class="container mx-auto">
+    <div class="container mx-auto">
+        <nav>
             <div class="flex items-center justify-between">
                 <NuxtLink to="/" class="text-xl font-bold">Developer Blog</NuxtLink>
                 <ul class="flex space-x-4">
@@ -21,8 +21,8 @@
                     </li>
                 </ul>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </div>
 </template>
 
 <script setup lang="ts">
