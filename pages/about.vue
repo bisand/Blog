@@ -7,6 +7,6 @@
   
 <script setup>
 const ui = /*ui*/ {
-    background: 'bg-white dark:bg-neutral-800'
+    background: 'bg-white dark:bg-neutral-700'
 }
 </script>

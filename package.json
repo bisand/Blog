@@ -13,6 +13,7 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxthq/ui": "^2.7.0",
+    "@sidebase/nuxt-auth": "^0.6.0-beta.3",
     "@types/node": "^18.16.19",
     "nuxt": "^3.6.5",
     "wrangler": "^3.4.0"
