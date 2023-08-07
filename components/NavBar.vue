@@ -17,6 +17,9 @@
                         <NuxtLink to="/contact" class="align-middle">Contact</NuxtLink>
                     </li>
                     <li>
+                        <AuthButton />
+                    </li>
+                    <li>
                         <ColorModePicker />
                     </li>
                 </ul>

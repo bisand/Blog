@@ -12,5 +12,9 @@ export default defineNuxtConfig({
   colorMode: {
     classSuffix: '',
     // preference: 'light'
-  }
+  },
+  auth: {
+    origin: process.env.ORIGIN,
+    enableGlobalAppMiddleware: false,
+}
 })
