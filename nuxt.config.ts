@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     preset: 'cloudflare-pages'
   },
   devtools: { enabled: true },
-  modules: ['@nuxthq/ui', '@nuxtjs/color-mode'],
+  modules: ['@nuxthq/ui', '@sidebase/nuxt-auth'],
   sourcemap: {
     server: true,
     client: true
