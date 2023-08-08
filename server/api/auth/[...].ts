@@ -1,9 +1,8 @@
 // file: ~/server/api/auth/[...].ts
+import GithubProvider from "@auth/core/providers/github"
+import type { AuthConfig } from "@auth/core/types"
+import { NuxtAuthHandler } from "#auth"
 import { KVNamespace } from "@cloudflare/workers-types";
-import { NuxtAuthHandler } from '#auth'
-import GithubProvider from 'next-auth/providers/github'
-import { env } from 'process'
-import { B } from "../../../dist/_nuxt/entry.cce0e594";
 
 function getUtcDateString() {
     const now = new Date()
@@ -16,32 +15,55 @@ function getUtcDateString() {
     return `${now.getUTCFullYear()}${month}${day}:${hours}${minutes}${seconds}${milliseconds}`
 }
 
-export default NuxtAuthHandler({
-    // secret needed to run nuxt-auth in production mode (used to encrypt data)
-    secret: process.env.NUXT_SECRET,
+// The #auth virtual import comes from this module. You can use it on the client
+// and server side, however not every export is universal. For example do not
+// use sign-in and sign-out on the server side.
+
+const runtimeConfig = useRuntimeConfig()
+
+// Refer to Auth.js docs for more details
+export const authOptions: AuthConfig = {
+    secret: runtimeConfig.authJs.secret,
     providers: [
-        // @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
-        GithubProvider.default({
-            clientId: env.GITHUB_CLIENT_ID,
-            clientSecret: env.GITHUB_CLIENT_SECRET
+        GithubProvider({
+            clientId: runtimeConfig.github.clientId,
+            clientSecret: runtimeConfig.github.clientSecret
         })
     ],
     callbacks: {
         async signIn({ user, account, profile, email, credentials }) {
-            const BISAND_BLOG_KV: KVNamespace = env.BISAND_BLOG as unknown as KVNamespace;
-            if (BISAND_BLOG_KV) {
-                let value: string = await BISAND_BLOG_KV.get<string>("user:2023-08-07-21431412345") ?? '';
+            console.log('signIn called')
+            console.log(profile)
 
-                if (user.email === value) {
-                    return true
-                } else {
-                    // Return false to display a default error message
-                    return false
-                    // Or you can return a URL to redirect to:
-                    // return '/unauthorized'
-                }
-            }
-            return false
-        }
-    }
-})
+            return true
+        },
+        async session({ session, user, token }) {
+            console.log('session called')
+            console.log(session)
+
+            return session
+        },
+    },
+    // callbacks: {
+    //     async signIn({ user, account, profile, email, credentials }) {
+    //         // console.log(`signIn ${BISAND_BLOG}` );
+    //         return true;
+    //         // const BISAND_BLOG_KV: KVNamespace = process.env.BISAND_BLOG as unknown as KVNamespace;
+    //         // if (BISAND_BLOG_KV) {
+    //         //     let value: string = await BISAND_BLOG_KV.get<string>("user:2023-08-07-21431412345") ?? '';
+
+    //         //     if (user.email === value) {
+    //         //         return true
+    //         //     } else {
+    //         //         // Return false to display a default error message
+    //         //         return false
+    //         //         // Or you can return a URL to redirect to:
+    //         //         // return '/unauthorized'
+    //         //     }
+    //         // }
+    //         // return false
+    //     }
+    // }
+}
+
+export default NuxtAuthHandler(authOptions, runtimeConfig)

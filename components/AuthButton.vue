@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { status, data, signOut, signIn } = useAuth()
+const { status, signOut, signIn } = useAuth()
 
 function loginWithGithub() {
     if (status.value === 'authenticated')
