@@ -4,8 +4,8 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "dev:debug": "npx wrangler pages dev --kv=IMAGES --live-reload -- npm run dev",
-    "dev:run": "npx wrangler pages dev dist --kv=IMAGES",
+    "dev:debug": "npx wrangler pages dev --kv=BISAND_BLOG --kv=IMAGES --live-reload -- npm run dev",
+    "dev:run": "npx wrangler pages dev dist --kv=BISAND_BLOG --kv=IMAGES --live-reload --port 3000",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"

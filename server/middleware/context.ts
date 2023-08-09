@@ -4,7 +4,9 @@ import * as fs from "fs";
 export default defineEventHandler((event) => {
     if (!event.context.cloudflare) {
         console.log('New request: ' + getRequestURL(event))
-        event.context.cloudflare = { env: { IMAGES: new KVLocal('IMAGES') } }; // initialize the context
+        event.context.cloudflare = { env: { IMAGES: new KVLocal('IMAGES'), BISAND_BLOG: new KVLocal('BISAND_BLOG') } }; // initialize the context
+        // process.env.IMAGES = new KVLocal('IMAGES');
+        // process.env.BISAND_BLOG = new KVLocal('BISAND_BLOG');
     }
 })
 
@@ -14,7 +16,7 @@ export class KVLocal {
         // Load data from file
         const path = `./.wrangler/state/fake/kv/${this.name}/blobs/${key}`;
 
-        if(!fs.existsSync(path)) {
+        if (!fs.existsSync(path)) {
             return Promise.resolve(null);
         }
 

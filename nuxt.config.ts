@@ -18,6 +18,11 @@ export default defineNuxtConfig({
     classSuffix: '',
     // preference: 'light'
   },
+  // authJs: {
+  //   verifyClientOnEveryRequest: true,
+  //   guestRedirectTo: "/",
+  //   baseUrl: ""
+  // },
   runtimeConfig: {
     authJs: {
       secret: process.env.NUXT_SECRET // You can generate one with `openssl rand -base64 32`
@@ -29,7 +34,7 @@ export default defineNuxtConfig({
     public: {
       authJs: {
         baseUrl: process.env.ORIGIN, // The base URL is used for the Origin Check in prod only
-        verifyClientOnEveryRequest: false // whether to hit the /auth/session endpoint on every client request
+        verifyClientOnEveryRequest: true // whether to hit the /auth/session endpoint on every client request
       }
     }
   }

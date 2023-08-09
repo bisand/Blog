@@ -31,39 +31,38 @@ export const authOptions: AuthConfig = {
         })
     ],
     callbacks: {
-        async signIn({ user, account, profile, email, credentials }) {
-            console.log('signIn called')
-            console.log(profile)
+        async signIn({ user, account, profile, email, credentials }: any) {
+            const BISAND_BLOG: KVNamespace = process.env.BISAND_BLOG as unknown as KVNamespace;
 
-            return true
+            console.log(">>> signIn >>>", JSON.stringify(profile))
+            const isAllowedToSignIn = true
+            const usr: any = await BISAND_BLOG.get("user:" + profile.id, "json");
+            if (usr.email === profile.email) {
+                return true
+            } else {
+                // Return false to display a default error message
+                return false
+                // Or you can return a URL to redirect to:
+                // return '/unauthorized'
+            }
         },
-        async session({ session, user, token }) {
-            console.log('session called')
-            console.log(session)
-
+        async session({ session, token, user }: any) {
+            console.log(">>> session >>>", JSON.stringify(session))
+            // Send properties to the client, like an access_token and user id from a provider.
+            session.accessToken = token.accessToken
+            session.user.id = token.id
             return session
         },
+        async jwt({ token, account, profile }: any) {
+            console.log(">>> jwt >>>", JSON.stringify(account))
+            // Persist the OAuth access_token and or the user id to the token right after signin
+            if (account) {
+                token.accessToken = account.access_token
+                token.id = profile.id
+            }
+            return token
+        }
     },
-    // callbacks: {
-    //     async signIn({ user, account, profile, email, credentials }) {
-    //         // console.log(`signIn ${BISAND_BLOG}` );
-    //         return true;
-    //         // const BISAND_BLOG_KV: KVNamespace = process.env.BISAND_BLOG as unknown as KVNamespace;
-    //         // if (BISAND_BLOG_KV) {
-    //         //     let value: string = await BISAND_BLOG_KV.get<string>("user:2023-08-07-21431412345") ?? '';
-
-    //         //     if (user.email === value) {
-    //         //         return true
-    //         //     } else {
-    //         //         // Return false to display a default error message
-    //         //         return false
-    //         //         // Or you can return a URL to redirect to:
-    //         //         // return '/unauthorized'
-    //         //     }
-    //         // }
-    //         // return false
-    //     }
-    // }
 }
 
 export default NuxtAuthHandler(authOptions, runtimeConfig)
