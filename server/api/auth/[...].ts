@@ -2,7 +2,7 @@
 import GithubProvider from "@auth/core/providers/github"
 import type { AuthConfig } from "@auth/core/types"
 import { NuxtAuthHandler } from "#auth"
-import { KVNamespace } from "@cloudflare/workers-types";
+import { KVHelper } from "../../tools/kv-helper";
 
 function getUtcDateString() {
     const now = new Date()
@@ -32,12 +32,10 @@ export const authOptions: AuthConfig = {
     ],
     callbacks: {
         async signIn({ user, account, profile, email, credentials }: any) {
-            const BISAND_BLOG: KVNamespace = process.env.BISAND_BLOG as unknown as KVNamespace;
-
-            console.log(">>> signIn >>>", JSON.stringify(profile))
-            const isAllowedToSignIn = true
-            const usr: any = await BISAND_BLOG.get("user:" + profile.id, "json");
-            if (usr.email === profile.email) {
+            // await KVHelper.BISAND_BLOG.put<string>(`user:${profile.login}`, profile.email);
+            const usr: any = await KVHelper.BISAND_BLOG.get<string>(`user:${profile.login}`);
+            console.log(">>> signIn >>>", usr, JSON.stringify(profile));
+            if (usr === profile.email) {
                 return true
             } else {
                 // Return false to display a default error message
