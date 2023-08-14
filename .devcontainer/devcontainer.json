@@ -18,7 +18,8 @@
 				"GitHub.copilot-chat",
 				"GitHub.copilot-labs",
 				"GitHub.copilot",
-				"qwtel.sqlite-viewer"
+				"qwtel.sqlite-viewer",
+				"donjayamanne.githistory"
 			]
 		}
 	},
