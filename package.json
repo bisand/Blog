@@ -15,12 +15,12 @@
     "@nuxthq/ui": "^2.7.0",
     "@types/node": "^18.16.19",
     "nuxt": "^3.6.5",
-    "wrangler": "^3.4.0"
+    "wrangler": "^3.5.0"
   },
   "dependencies": {
-    "@auth/core": "^0.9.0",
-    "@cloudflare/workers-types": "^4.20230724.0",
-    "@hebilicious/authjs-nuxt": "^0.2.0-beta.5",
+    "@auth/core": "^0.10.0",
+    "@cloudflare/workers-types": "^4.20230807.0",
+    "@hebilicious/authjs-nuxt": "^0.3.0-beta.2",
     "@upstash/redis": "^1.22.0"
   }
 }
